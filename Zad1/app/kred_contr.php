@@ -34,8 +34,8 @@ if (empty( $messages )){
 // if no errors 
 if (empty( $messages)){
 
-    $credit = intval($credit);
-    $percent = intval($percent);
+    $credit = round(floatval($credit),2);
+    $percent = round(floatval($percent),2);
     $months = intval($months);
     $installment = $credit / $months; //rata
     $result = round($installment * ($percent/100) + $installment,2);
