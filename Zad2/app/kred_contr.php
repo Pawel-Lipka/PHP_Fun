@@ -13,12 +13,12 @@ function get_params(&$credit, &$percent, &$months){
 
 function check_params(&$credit, &$percent, &$months, &$messages){
     
-    //fields have to be initialized
+    // fields have to be initialized
     if (  is_null($credit) || is_null($percent) || is_null($months)) {
         return false;
     }
 
-    //fields have to be numeric
+    // fields have to be numeric
     if (! (is_numeric($credit) && is_numeric($percent) && is_numeric($months))) {
         $messages [] = 'Błędne wywołanie aplikacji. Parametry nie są liczbami';
     }
@@ -41,6 +41,7 @@ function check_params(&$credit, &$percent, &$months, &$messages){
     else return true;
 }
 
+// // calculates the monthly and total amount to be return
 function calculate(&$credit, &$percent, &$months, &$result, &$total_result){
 
     $credit = round(floatval($credit),2);
@@ -58,7 +59,7 @@ $result = null;
 $total_result = null;
 $messages = array();
 
-
+// if parameters writed by user are correct calculate; 
 get_params($credit, $percent, $months);
 if ( check_params($credit, $percent, $months, $messages) ){
     calculate($credit, $percent, $months, $result, $total_result);

@@ -12,14 +12,12 @@
         <div style="width:90%; margin: 2em auto;">
 
             <a href="<?php print(_APP_ROOT); ?>/app/security/logout.php" class="pure-button pure-button-active">Wyloguj</a>
-       
-        
+            
+            <?php if ( $_SESSION['role'] == 'admin'){ ?>
 
-        <?php if ( $_SESSION['role'] == 'admin'){ ?>
-
-            <a href="<?php print(_APP_ROOT); ?>/app/tajna_strona_admina.php" class="pure-button pure-button-active">Strona Admina</a>
+                <a href="<?php print(_APP_ROOT); ?>/app/tajna_strona_admina.php" class="pure-button pure-button-active">Strona Admina</a>
        
-       <?php } ?>
+            <?php } ?>
        </div>
         
         <div style = "width:90%; margin: 2em auto;">

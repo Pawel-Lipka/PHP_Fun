@@ -25,8 +25,10 @@ function check_login_params(&$form,&$messages){
         $messages [] = 'Brak hasła';
     }
 
+    // if there are errors in user input break;
     if (count ( $messages ) > 0) return false;
 
+    // wrong approche, user data should be in database:)
     if ($form['login'] == "admin" && $form['pass'] == "admin") {
 		session_start();
 		$_SESSION['role'] = 'admin';
