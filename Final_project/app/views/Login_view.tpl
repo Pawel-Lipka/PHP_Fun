@@ -5,7 +5,6 @@
     <nav id="nav">
     <ul class="links">
         <li class="active"><a href="{url action='generate_login_view'}">{$button1}</a></li>
-        <
     </ul>
 </nav>
 
@@ -14,8 +13,17 @@
 {block name = main}
 
     <div id="main">
-
-    <form method="post" action="{url action = 'generate_view'}">
+    
+   
+    {if $msgs->isError()}
+        <ul>
+        {foreach $msgs->getMessages() as $msg}
+            <li>{$msg->text}</li>
+        {/foreach}
+        </ul>
+    {/if}
+   
+    <form method="post" action="{url action = 'login'}">
 
         <div class="fields" style="justify-content: center">
             <section >
