@@ -30,7 +30,6 @@ class PartsCtrl{
 
     function action_add_part(){
 
-    
         $code = ParamUtils::getFromRequest('code',true,'Brak kodu');
         $desc = ParamUtils::getFromRequest('desc',true,'brak opisu');
         $qty = ParamUtils::getFromRequest('qty',true,'brak ilosc');
@@ -93,6 +92,7 @@ class PartsCtrl{
         //nav bar
         App::getSmarty()->assign('button1',"Części");
         App::getSmarty()->assign('button2',"Wyloguj");
+        App::getSmarty()->assign('button3',"Administracja");
 
         //spare parts from DB
         App::getSmarty()->assign('spare_parts',$this->parts);

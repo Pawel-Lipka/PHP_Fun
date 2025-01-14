@@ -8,6 +8,9 @@
         <ul class="links">
             <li class="active"><a href="{url action='generate_view'}">{$button1}</a></li>
             <li><a href="{url action='logout'}">{$button2}</a></li>
+            {if \core\RoleUtils::inRole('admin')}
+            <li><a href="{url action='generate_admin_view'}">{$button3}</a></li>
+            {/if}
 
         </ul>
     </nav>

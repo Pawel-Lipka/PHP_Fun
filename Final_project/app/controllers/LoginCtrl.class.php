@@ -20,6 +20,7 @@ class LoginCtrl{
         $this->v = new Validator();
     }
 
+    // get and validate login params
     public function get_params(){
 
         $this->form->login = $this->v->validateFromRequest("login",[
@@ -67,9 +68,16 @@ class LoginCtrl{
 
         $this -> get_params();
        
+        // if login credentials are correct grant role from DB
         if (App::getMessages()->isEmpty() and $this -> is_user_in_db() and $this -> is_password_correct()){
 
-            RoleUtils::addRole("admin");
+            $role = App::getDB()->get("role",[
+                "[>]user_role" => ["id_role" => "id_role"],
+                "[>]user" => ["user_role.id_user" => "id_user"]
+            ], "role_name",["login" => $this->form->login]);
+
+            RoleUtils::addRole($role);
+
             App::getRouter()->redirectTo('generate_view');
             
         }
