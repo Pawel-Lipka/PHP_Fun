@@ -41,9 +41,9 @@ class LoginCtrl{
 
     public function is_password_correct(){
     
-        $password = App::getDB()->select('user','password',['login' => $this->form->login]);
+        $password = App::getDB()->get('user','password',['login' => $this->form->login]);
 
-        if ($password['0'] == $this->form->password){
+        if ($password == $this->form->password){
             return true;
         }
 
@@ -53,9 +53,10 @@ class LoginCtrl{
 
     public function is_user_in_db(){
         
-        $user = App::getDB()->select('user','login',['login' => $this->form->login]);
+        //$user = App::getDB()->select('user','login',['login' => $this->form->login]);
+        $user = App::getDB()->get('user','login',['login' => $this->form->login]);
         
-        if( ! isset($user['0'])){
+        if( $user != $this->form->login){
 
             Utils::addErrorMessage("Błędny Login");
             return false;
@@ -77,12 +78,16 @@ class LoginCtrl{
             ], "role_name",["login" => $this->form->login]);
 
             RoleUtils::addRole($role);
-
-            App::getRouter()->redirectTo('generate_view');
+            
+            if ($role == 'admin'){
+                App::getRouter()->redirectTo('generate_admin_view');
+            } 
+            else App::getRouter()->redirectTo('generate_view');
             
         }
-    
-    $this->action_generate_login_view();
+        
+        //App::getRouter()->redirectTo('login_view');
+        $this -> action_generate_login_view();
     
     }
 
@@ -104,6 +109,7 @@ class LoginCtrl{
         App::getSmarty()->assign('button1',"Zaloguj");
 
         App::getSmarty()->assign('form',$this->form);
+        App::getSmarty()->assign('messages', App::getMessages());
      
         App::getSmarty()->display("Login_view.tpl");
     }

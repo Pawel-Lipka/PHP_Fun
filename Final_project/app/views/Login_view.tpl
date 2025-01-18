@@ -15,12 +15,15 @@
     <div id="main">
     
    
-    {if $msgs->isError()}
-        <ul>
-        {foreach $msgs->getMessages() as $msg}
+   
+    {if ! $messages->isEmpty()}
+        <section>
+        {foreach $messages->getMessages() as $msg}
+            <ul>
             <li>{$msg->text}</li>
+            </ul>
         {/foreach}
-        </ul>
+        </section>
     {/if}
    
     <form method="post" action="{url action = 'login'}">

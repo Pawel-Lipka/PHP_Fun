@@ -4,9 +4,8 @@
 
     <nav id="nav">
     <ul class="links">
-        <li class="active"><a href="{url action='generate_view'}">{$button1}</a></li>
+        <li class="active"><a href="{url action='generate_admin_view'}">{$button3} </a></li>
         <li><a href="{url action='logout'}">{$button2}</a></li>
-        <li><a href="{url action='generate_admin_view'}">{$button3}</a></li>
     </ul>
 </nav>
 
@@ -48,42 +47,58 @@
                 </div>
             </section>
         </div>
+
         <div class="fields" style="flex-direction: row; justify-content: center">
+
+            <section >
+                <div class="field">
+                    <label for="login">Login</label>
+                    <input type="text" name="login" id="login" value="{$form->login}"/>
+                </div>
+            </section>
+
             <section >
             <div class="field">
-                <label for="login">Login</label>
-                <input type="text" name="login" id="login" value="{$form->login}"/>
+                <label for="password">Hasło</label>
+                <input type="password" name="password" id="password" value="{$form->password}"/>
             </div>
-        </section>
+            </section>
 
-        <section >
-        <div class="field">
-            <label for="password">Hasło</label>
-            <input type="password" name="password" id="password" value="{$form->password}"/>
-        </div>
-        </section>
+            <section >
+            <div class="field">
+                <label for="password1">Powtórz Hasło</label>
+                <input type="password" name="password1" id="password1" value="{$form->password1}"/>
+            </div>
+            </section>
 
-        <section >
-        <div class="field">
-            <label for="password2">Powtórz Hasło</label>
-            <input type="password" name="password2" id="password2" value="{$form->password2}"/>
-        </div>
-        </section>
+            <section>
+            <div class="field">
+                <label for="role">rola</label>
+                <select name="role" id="role">
+                {foreach $roles as $role}
+                    <option value={$role["id_role"]}>{$role["role_name"]}</option>
+                {/foreach}
+                </select>
 
-        <section >
-        <div class="field">
-            <label for="role">rola</label>
-            <input type="text" name="role" id="role" value="{$form->role}"/>
+            </div>
+            </section>
         </div>
-        </section>
-         
-        </div>
-        
+        <section>
         <div style="text-align: center;"> 
             <input type="submit" value="Dodaj użytkownika" />
         </div>
-        
+       </section>
     </form>
+
+    {if ! $messages->isEmpty()}
+    <section>
+    {foreach $messages->getMessages() as $msg}
+        <ul>
+        <li>{$msg->text}</li>
+        </ul>
+    {/foreach}
+    </section>
+    {/if}
 
     <section>		
         <table class = "alt">
@@ -108,18 +123,15 @@
                     <td>{$user["position"]}</td>
                     <td>{$user["phone_number"]}</td>
                     <td>{$user["login"]}</td>
-                    <td>{$user["login"]}</td>
+                    <td>{$user["role_name"]}</td>
                     <td>
-                        <form method="post" action="{url action = 'part_action'}" margin = 0>
+                        <form method="post" action="{url action = 'remove_user'}" margin = 0>
                         
                         <div class="fields" style="flex-direction: row; justify-content: center;">
                             
-
                             <section>
                                 <div class = "field">
                                     <input type="submit" name = 'btnRmv' value="Usuń"/>
-                                
-
                                 </div>
                             </section>
                         </div>

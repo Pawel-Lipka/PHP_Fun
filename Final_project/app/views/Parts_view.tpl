@@ -22,50 +22,89 @@
     
 
     <div id="main">
+        {if ! \core\RoleUtils::inRole('technician') }
+            <form method="post" action="{url action = 'add_part'}">
 
-    <form method="post" action="{url action = 'add_part'}">
+                <div class="fields" style="flex-direction: row; justify-content: center">
+                    <section >
+                        <div class="field">
+                            <label for="code">Kod</label>
+                            <input type="text" name="code" id="code" />
+                        </div>
+                    </section>
 
-        <div class="fields" style="flex-direction: row; justify-content: center">
-            <section >
-                <div class="field">
-                    <label for="code">Kod</label>
-                    <input type="text" name="code" id="code" value="{$form->code}"/>
+                    <section >
+                        <div class="field">
+                            <label for="desc">Nazwa</label>
+                            <input type="text" name="desc" id="desc" />
+                        </div>
+                    </section>
+
+                    <section >
+                        <div class="field">
+                            <label for="qty">Ilość</label>
+                            <input type="text" name="qty" id="qty" />
+                        </div>
+                    </section>
+                    
                 </div>
-            </section>
-
-            <section >
-                <div class="field">
-                    <label for="desc">Nazwa</label>
-                    <input type="text" name="desc" id="desc" value="{$form->desc}"/>
+                
+                <div style="text-align: center;"> 
+                    <input type="submit" value="Dodaj część" />
                 </div>
-            </section>
+                
+            </form>
+        {/if}
 
-            <section >
-                <div class="field">
-                    <label for="qty">Ilość</label>
-                    <input type="text" name="qty" id="qty" value="{$form->qty}"/>
-                </div>
+        {if ! $messages->isEmpty()}
+            <section>
+                {foreach $messages->getMessages() as $msg}
+                    <ul>
+                        <li>{$msg->text}</li>
+                    </ul>
+                {/foreach}
             </section>
-            
-        </div>
-        
-        <div style="text-align: center;"> 
-            <input type="submit" value="Dodaj część" />
-        </div>
-        
-    </form>
+        {/if}
 
-    <section>		
-        <table class = "alt">
-            <thead>
+    
+    
+        <form method="post" action="{url action = 'generate_view'}">
+            <div class="fields" style="flex-direction: row; justify-content: center">   
+                
+                <section >
+                    <div class="field">
+                        <input type="text" name="search_code" id="search_code" placeholder="Kod"/>
+                    </div>
+                </section>
+
+                <section >
+                    <div class="field">
+                        <input type="text" name="search_name" id="search_name" placeholder="Nazwa"/>
+                    </div>
+                </section>
+                
+                <section>
+                    <div class="field">
+                        <input type="submit" name="search" value="Szukaj" />
+                    </div class="field">
+                </section>
+            </div>
+
+        </form>
+    
+    
+
+        <section>		
+            <table class = "alt">
+                <thead>
                     <tr>
                     <th>#</th>
                     <th>Kod</th>
                     <th>Nazwa</th>
                     <th>Ilość</th>
                     <th>Opcje</th>
-                </tr>
-            </thead>
+                    </tr>
+             </thead>
                
             <tbody>
             {foreach $spare_parts as $part}
@@ -82,19 +121,19 @@
                         <div class="fields" style="flex-direction: row; justify-content: center;">
                             <section>
                                 <div class = "field" >
-                                <input type="text" name="qty" id="qty" placeholder="ilość" size="5"/>
+                                    <input type="text" name="qty" id="qty" placeholder="ilość" size="5"/>
                                 </div>
                             </section>
 
                             <section>
                                 <div class = "field">
 
-                                {if \core\RoleUtils::inRole('admin') || \core\RoleUtils::inRole('storeKeeper')}
-                                    <input type="submit" name = 'btnAdd' value="Dodaj"/>
+                                {if \core\RoleUtils::inRole('manager') || \core\RoleUtils::inRole('storekeeper')}
+                                    <input type="submit" name = 'btnAdd' value="Przyjmij"/>
                                 {/if}
 
-                                {if \core\RoleUtils::inRole('admin') || \core\RoleUtils::inRole('technician')}
-                                    <input type="submit" name = 'btnRmv' value="Usuń"/>
+                                {if \core\RoleUtils::inRole('manager') || \core\RoleUtils::inRole('technician')}
+                                    <input type="submit" name = 'btnRmv' value="Pobierz"/>
                                 {/if}
 
                                 </div>
@@ -112,7 +151,7 @@
             {/foreach}
             </tbody>
         </table>
-    </section>	
+        </section>	
 
         <!-- Scroll bar -->
             <footer>

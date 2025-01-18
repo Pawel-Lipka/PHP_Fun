@@ -9,6 +9,6 @@ class NewUserForm{
     public $phonenumber;
     public $login;
     public $password;
-    public $password2;
+    public $password1;
     public $role;
 }

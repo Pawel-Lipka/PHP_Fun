@@ -9,8 +9,10 @@ App::getRouter()->setLoginRoute('generate_login_view'); #action to forward if no
 Utils::addRoute('generate_login_view', 'LoginCtrl');
 Utils::addRoute('login', 'LoginCtrl');
 Utils::addRoute('logout', 'LoginCtrl');
-Utils::addRoute('generate_view', 'PartsCtrl',['admin', 'storeKeeper', 'technician']);
-Utils::addRoute('part_action', 'PartsCtrl',['admin','storeKeeper']);
-Utils::addRoute('add_part', 'PartsCtrl',['admin','technician']);
+Utils::addRoute('generate_view', 'PartsCtrl',['storekeeper', 'technician','manager']);
+Utils::addRoute('part_action', 'PartsCtrl',['technician','storekeeper','manager']);
+Utils::addRoute('add_part', 'PartsCtrl',['storekeeper','manager']);
+
 Utils::addRoute('generate_admin_view','AdminCtrl',['admin']);
 Utils::addRoute('add_user','AdminCtrl',['admin']);
+Utils::addRoute('remove_user','AdminCtrl',['admin']);
