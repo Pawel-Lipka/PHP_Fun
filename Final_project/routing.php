@@ -13,6 +13,7 @@ Utils::addRoute('generate_view', 'PartsCtrl',['storekeeper', 'technician','manag
 Utils::addRoute('part_action', 'PartsCtrl',['technician','storekeeper','manager']);
 Utils::addRoute('add_part', 'PartsCtrl',['storekeeper','manager']);
 
+
 Utils::addRoute('generate_admin_view','AdminCtrl',['admin']);
 Utils::addRoute('add_user','AdminCtrl',['admin']);
 Utils::addRoute('remove_user','AdminCtrl',['admin']);

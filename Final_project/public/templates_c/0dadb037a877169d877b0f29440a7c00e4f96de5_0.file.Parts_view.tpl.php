@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 4.3.4, created on 2025-01-18 11:08:55
+/* Smarty version 4.3.4, created on 2025-03-16 14:03:14
   from 'D:\Programy\XAMPP\htdocs\Final_project\app\views\Parts_view.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '4.3.4',
-  'unifunc' => 'content_678b7db7ae05c6_39682627',
+  'unifunc' => 'content_67d6cc126316e7_39483017',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '0dadb037a877169d877b0f29440a7c00e4f96de5' => 
     array (
       0 => 'D:\\Programy\\XAMPP\\htdocs\\Final_project\\app\\views\\Parts_view.tpl',
-      1 => 1737194931,
+      1 => 1742130187,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_678b7db7ae05c6_39682627 (Smarty_Internal_Template $_smarty_tpl) {
+function content_67d6cc126316e7_39483017 (Smarty_Internal_Template $_smarty_tpl) {
 $_smarty_tpl->_loadInheritance();
 $_smarty_tpl->inheritance->init($_smarty_tpl, true);
 ?>
@@ -29,21 +29,21 @@ $_smarty_tpl->inheritance->init($_smarty_tpl, true);
 
 
 <?php 
-$_smarty_tpl->inheritance->instanceBlock($_smarty_tpl, 'Block_499474111678b7db7aa9726_05795614', 'nav');
+$_smarty_tpl->inheritance->instanceBlock($_smarty_tpl, 'Block_122784784767d6cc125582e6_42288518', 'nav');
 ?>
 
 
 <?php 
-$_smarty_tpl->inheritance->instanceBlock($_smarty_tpl, 'Block_405172683678b7db7ab9b27_04106240', 'main');
+$_smarty_tpl->inheritance->instanceBlock($_smarty_tpl, 'Block_72854227767d6cc12585711_57216280', 'main');
 $_smarty_tpl->inheritance->endChild($_smarty_tpl, "Main.tpl");
 }
 /* {block 'nav'} */
-class Block_499474111678b7db7aa9726_05795614 extends Smarty_Internal_Block
+class Block_122784784767d6cc125582e6_42288518 extends Smarty_Internal_Block
 {
 public $subBlocks = array (
   'nav' => 
   array (
-    0 => 'Block_499474111678b7db7aa9726_05795614',
+    0 => 'Block_122784784767d6cc125582e6_42288518',
   ),
 );
 public function callBlock(Smarty_Internal_Template $_smarty_tpl) {
@@ -72,12 +72,12 @@ public function callBlock(Smarty_Internal_Template $_smarty_tpl) {
 }
 /* {/block 'nav'} */
 /* {block 'main'} */
-class Block_405172683678b7db7ab9b27_04106240 extends Smarty_Internal_Block
+class Block_72854227767d6cc12585711_57216280 extends Smarty_Internal_Block
 {
 public $subBlocks = array (
   'main' => 
   array (
-    0 => 'Block_405172683678b7db7ab9b27_04106240',
+    0 => 'Block_72854227767d6cc12585711_57216280',
   ),
 );
 public function callBlock(Smarty_Internal_Template $_smarty_tpl) {
@@ -249,15 +249,35 @@ $_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl, 1);?>
         <!-- Scroll bar -->
             <footer>
                 <div class="pagination">
-                    <!--<a href="#" class="previous">Prev</a>-->
-                    <a href="#" class="page active">1</a>
-                    <a href="#" class="page">2</a>
-                    <a href="#" class="page">3</a>
-                    <span class="extra">&hellip;</span>
-                    <a href="#" class="page">8</a>
-                    <a href="#" class="page">9</a>
-                    <a href="#" class="page">10</a>
-                    <a href="#" class="next">Next</a>
+
+                    <?php if ($_smarty_tpl->tpl_vars['current_page']->value > 1) {?>
+                    <a href=<?php echo call_user_func_array( $_smarty_tpl->smarty->registered_plugins[Smarty::PLUGIN_FUNCTION]['url'][0], array( array('action'=>'generate_view','p1'=>($_smarty_tpl->tpl_vars['previous_page']->value)),$_smarty_tpl ) );?>
+ class="previous">Prev</a>
+                    <?php }?>
+
+                    <?php
+$_smarty_tpl->tpl_vars['page'] = new Smarty_Variable(null, $_smarty_tpl->isRenderingCache);$_smarty_tpl->tpl_vars['page']->step = 1;$_smarty_tpl->tpl_vars['page']->total = (int) ceil(($_smarty_tpl->tpl_vars['page']->step > 0 ? $_smarty_tpl->tpl_vars['pages_qty']->value+1 - (1) : 1-($_smarty_tpl->tpl_vars['pages_qty']->value)+1)/abs($_smarty_tpl->tpl_vars['page']->step));
+if ($_smarty_tpl->tpl_vars['page']->total > 0) {
+for ($_smarty_tpl->tpl_vars['page']->value = 1, $_smarty_tpl->tpl_vars['page']->iteration = 1;$_smarty_tpl->tpl_vars['page']->iteration <= $_smarty_tpl->tpl_vars['page']->total;$_smarty_tpl->tpl_vars['page']->value += $_smarty_tpl->tpl_vars['page']->step, $_smarty_tpl->tpl_vars['page']->iteration++) {
+$_smarty_tpl->tpl_vars['page']->first = $_smarty_tpl->tpl_vars['page']->iteration === 1;$_smarty_tpl->tpl_vars['page']->last = $_smarty_tpl->tpl_vars['page']->iteration === $_smarty_tpl->tpl_vars['page']->total;?>
+                        
+                        <?php if ($_smarty_tpl->tpl_vars['page']->value == $_smarty_tpl->tpl_vars['current_page']->value) {?>
+                            <a href=<?php echo call_user_func_array( $_smarty_tpl->smarty->registered_plugins[Smarty::PLUGIN_FUNCTION]['url'][0], array( array('action'=>'generate_view','p1'=>$_smarty_tpl->tpl_vars['page']->value),$_smarty_tpl ) );?>
+ class="page active"><?php echo $_smarty_tpl->tpl_vars['page']->value;?>
+</a>
+                        <?php } else { ?>    
+                            <a href=<?php echo call_user_func_array( $_smarty_tpl->smarty->registered_plugins[Smarty::PLUGIN_FUNCTION]['url'][0], array( array('action'=>'generate_view','p1'=>$_smarty_tpl->tpl_vars['page']->value),$_smarty_tpl ) );?>
+ class="page"><?php echo $_smarty_tpl->tpl_vars['page']->value;?>
+</a>
+                        <?php }?>
+                                            <?php }
+}
+?>
+
+                    <?php if ($_smarty_tpl->tpl_vars['current_page']->value < $_smarty_tpl->tpl_vars['pages_qty']->value) {?>
+                        <a href=<?php echo call_user_func_array( $_smarty_tpl->smarty->registered_plugins[Smarty::PLUGIN_FUNCTION]['url'][0], array( array('action'=>'generate_view','p1'=>($_smarty_tpl->tpl_vars['next_page']->value)),$_smarty_tpl ) );?>
+ class="next">Next</a>
+                    <?php }?>
                 </div>
             </footer>
 

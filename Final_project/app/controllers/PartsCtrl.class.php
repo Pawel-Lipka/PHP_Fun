@@ -6,12 +6,17 @@ use app\forms\PartForm;
 use core\App;
 use core\Utils;
 use core\ParamUtils;
+use core\SessionUtils;
 use core\Validator;
 
 class PartsCtrl{
 
     private $form;
     private $parts;
+    private $parts_quantity;
+    private $page_quantity;
+    private $records_per_table = 10;
+    private $page_selected = 1;
 
     public function __construct(){
 
@@ -23,6 +28,23 @@ class PartsCtrl{
     //return true if value is in table column
     function is_in_db($table,$column,$value){
         return App::getDB()->has($table,[$column => $value]);
+    }
+
+    function validate_page(){
+        
+        $v = new Validator();
+        
+        $number = $v->validateFromCleanURL(1,[
+            'escape'=> false, 
+            'int'=> true,
+            'max_length' => 20,
+            "min" => 1,
+            "max" => 9999]);
+
+        if( ! $v->isLastOK() || $v->isLastEmpty()) return 1;
+        else return $number;
+        
+
     }
 
     function validate_part(){
@@ -122,36 +144,66 @@ class PartsCtrl{
         $this->action_generate_view();
         
     }
-
-
-
+ 
     function action_generate_view(){
         
         $search_code = ParamUtils::getFromRequest("search_code");
         $search_name = ParamUtils::getFromRequest("search_name");
-       
         
         if( ! (is_null($search_code)) && ! empty($search_code)){
-            $this->parts = App::getDB()->select('spare_parts','*',["sp_code" => $search_code]);
+            $this->parts_quantity = App::getDB()->count('spare_parts',["sp_code" => $search_code]);
+            $this->page_quantity = ceil($this->parts_quantity / $this->records_per_table);
+            $this -> page_selected = $this -> validate_page();
+
+            
+            $offset = ($this -> page_selected - 1) * $this->records_per_table;
+            $last = $this-> page_selected * $this->records_per_table;
+            $this->parts = App::getDB()->select('spare_parts','*',["sp_code" => $search_code,"LIMIT" =>[$offset, $last]]);
+            
         }
 
         else if(! is_null($search_name) && ! empty($search_name)){
-            $this->parts = App::getDB()->select('spare_parts','*',["sp_description[~]" => $search_name]);
+            
+            $this->parts_quantity = App::getDB()->count('spare_parts',["sp_description[~]" => $search_name]);
+            $this->page_quantity = ceil($this->parts_quantity / $this->records_per_table);
+            $this -> page_selected = $this -> validate_page();
+
+            $offset = ($this -> page_selected - 1) * $this->records_per_table;
+            $last = $this-> page_selected * $this->records_per_table;
+            $this->parts = App::getDB()->select('spare_parts','*',["sp_description[~]" => $search_name,"LIMIT" =>[$offset, $last]]);
+            
         }
 
-        else{ $this->parts = App::getDB()->select('spare_parts','*');}
+        else{ 
+            $this->parts_quantity = App::getDB()->count('spare_parts');
+            $this->page_quantity = ceil($this->parts_quantity / $this->records_per_table);
+            $this -> page_selected = $this -> validate_page();
 
+            $offset = ($this -> page_selected - 1) * $this->records_per_table;
+            $last = $this-> page_selected * $this->records_per_table;
+            $this->parts = App::getDB()->select('spare_parts','*',["LIMIT"=>[$offset, $last]]);  
+        }
+
+        
         App::getSmarty()->assign('page_title',"Części zamienne");
         //Logo
         App::getSmarty()->assign('logo',"Części zamienne");
         App::getSmarty()->assign('logo_action',"generate_view");
-        //nav bar
+        //Top nav bar
         App::getSmarty()->assign('button1',"Części");
         App::getSmarty()->assign('button2',"Wyloguj");
         App::getSmarty()->assign('button3',"Administracja");
 
         //spare parts from DB
         App::getSmarty()->assign('spare_parts',$this->parts);
+        App::getSmarty()->assign('parts_qty',$this->parts_quantity);
+        App::getSmarty()->assign('pages_qty', $this->page_quantity);
+
+        //Table nav bar
+        App::getSmarty()->assign('current_page', $this->page_selected);
+        App::getSmarty()->assign('previous_page', $this->page_selected - 1);
+        App::getSmarty()->assign('next_page', $this->page_selected + 1);
+        App::getSmarty()->assign('current_search', $search_name);
 
         App::getSmarty()->assign('form',$this->form);
 

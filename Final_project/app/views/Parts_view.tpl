@@ -156,15 +156,24 @@
         <!-- Scroll bar -->
             <footer>
                 <div class="pagination">
-                    <!--<a href="#" class="previous">Prev</a>-->
-                    <a href="#" class="page active">1</a>
-                    <a href="#" class="page">2</a>
-                    <a href="#" class="page">3</a>
-                    <span class="extra">&hellip;</span>
-                    <a href="#" class="page">8</a>
-                    <a href="#" class="page">9</a>
-                    <a href="#" class="page">10</a>
-                    <a href="#" class="next">Next</a>
+
+                    {if $current_page > 1}
+                    <a href={url action='generate_view' p1 = ($previous_page)} class="previous">Prev</a>
+                    {/if}
+
+                    {for $page = 1 to $pages_qty}
+                        
+                        {if $page == $current_page}
+                            <a href={url action='generate_view' p1 = $page} class="page active">{$page}</a>
+                        {else}    
+                            <a href={url action='generate_view' p1 = $page} class="page">{$page}</a>
+                        {/if}
+                        {* <span class="extra">&hellip;</span> *}
+                    {/for}
+
+                    {if $current_page < $pages_qty}
+                        <a href={url action='generate_view' p1 = ($next_page)} class="next">Next</a>
+                    {/if}
                 </div>
             </footer>
 
