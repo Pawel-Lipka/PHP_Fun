@@ -88,10 +88,19 @@
                         <input type="submit" name="search" value="Szukaj" />
                     </div class="field">
                 </section>
+                
+                
             </div>
+            
+            {if isset($search_name)}
+
+                <div style= "text-align: center">
+                    <a href= {url action='clear_search'} class="button small" style="flex-direction: row; justify-content: center" >wyczyść wyszukiwanie</a>
+                </div>
+            {/if}
 
         </form>
-    
+        
     
 
         <section>		
@@ -158,21 +167,21 @@
                 <div class="pagination">
 
                     {if $current_page > 1}
-                    <a href={url action='generate_view' p1 = ($previous_page)} class="previous">Prev</a>
+                    <a href={url action='change_page' p1 = ($previous_page)} class="previous">Prev</a>
                     {/if}
 
                     {for $page = 1 to $pages_qty}
                         
                         {if $page == $current_page}
-                            <a href={url action='generate_view' p1 = $page} class="page active">{$page}</a>
+                            <a href={url action='change_page' p1 = $page} class="page active">{$page}</a>
                         {else}    
-                            <a href={url action='generate_view' p1 = $page} class="page">{$page}</a>
+                            <a href={url action='change_page' p1 = $page} class="page">{$page}</a>
                         {/if}
                         {* <span class="extra">&hellip;</span> *}
                     {/for}
 
                     {if $current_page < $pages_qty}
-                        <a href={url action='generate_view' p1 = ($next_page)} class="next">Next</a>
+                        <a href={url action='change_page' p1 = ($next_page)} class="next">Next</a>
                     {/if}
                 </div>
             </footer>

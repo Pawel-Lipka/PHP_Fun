@@ -16,13 +16,13 @@ class PartsCtrl{
     private $parts_quantity;
     private $page_quantity;
     private $records_per_table = 10;
-    private $page_selected = 1;
+    private $page_selected;
+    private $search_name;
 
     public function __construct(){
 
         $this->form = new partForm();
-        
-        
+
     }
 
     //return true if value is in table column
@@ -30,6 +30,7 @@ class PartsCtrl{
         return App::getDB()->has($table,[$column => $value]);
     }
 
+    // chceck if page number is correct
     function validate_page(){
         
         $v = new Validator();
@@ -42,8 +43,7 @@ class PartsCtrl{
             "max" => 9999]);
 
         if( ! $v->isLastOK() || $v->isLastEmpty()) return 1;
-        else return $number;
-        
+        else return $number;        
 
     }
 
@@ -116,6 +116,14 @@ class PartsCtrl{
             $this->action_generate_view();
 
         }
+    
+    function action_clear_search(){
+
+        SessionUtils::remove("searched_name");
+        
+        $this->page_selected = 1;
+        $this->action_change_page();
+    }
 
     function action_remove_part(){
 
@@ -144,47 +152,49 @@ class PartsCtrl{
         $this->action_generate_view();
         
     }
- 
-    function action_generate_view(){
-        
-        $search_code = ParamUtils::getFromRequest("search_code");
-        $search_name = ParamUtils::getFromRequest("search_name");
-        
+
+    // get spare parts from DB. Depending on the form - by code, name or all
+    function get_from_db(){
+
+        $search_code = ParamUtils::getFromRequest("search_code");  
+        $this->search_name = ParamUtils::getFromRequest("search_name") ? ParamUtils::getFromRequest("search_name") : SessionUtils::load("searched_name");
+        $offset = ($this -> page_selected - 1) * $this->records_per_table;
+
         if( ! (is_null($search_code)) && ! empty($search_code)){
-            $this->parts_quantity = App::getDB()->count('spare_parts',["sp_code" => $search_code]);
-            $this->page_quantity = ceil($this->parts_quantity / $this->records_per_table);
-            $this -> page_selected = $this -> validate_page();
-
             
-            $offset = ($this -> page_selected - 1) * $this->records_per_table;
-            $last = $this-> page_selected * $this->records_per_table;
-            $this->parts = App::getDB()->select('spare_parts','*',["sp_code" => $search_code,"LIMIT" =>[$offset, $last]]);
-            
+            $this -> parts_quantity = App::getDB()->count('spare_parts',["sp_code" => $search_code]);
+            $this->parts = App::getDB()->select('spare_parts','*',["sp_code" => $search_code,"LIMIT" =>[$offset, $this->records_per_table]]);      
         }
 
-        else if(! is_null($search_name) && ! empty($search_name)){
-            
-            $this->parts_quantity = App::getDB()->count('spare_parts',["sp_description[~]" => $search_name]);
-            $this->page_quantity = ceil($this->parts_quantity / $this->records_per_table);
-            $this -> page_selected = $this -> validate_page();
+        else if(! is_null($this->search_name) && ! empty($this->search_name)){
 
-            $offset = ($this -> page_selected - 1) * $this->records_per_table;
-            $last = $this-> page_selected * $this->records_per_table;
-            $this->parts = App::getDB()->select('spare_parts','*',["sp_description[~]" => $search_name,"LIMIT" =>[$offset, $last]]);
-            
+            SessionUtils::store("searched_name",$this->search_name);
+            $this -> parts_quantity = App::getDB()->count('spare_parts',["sp_description[~]" => $this->search_name]);
+            $this->parts = App::getDB()->select('spare_parts','*',["sp_description[~]" => $this->search_name,"LIMIT" =>[$offset, $this->records_per_table]]);     
         }
 
-        else{ 
-            $this->parts_quantity = App::getDB()->count('spare_parts');
-            $this->page_quantity = ceil($this->parts_quantity / $this->records_per_table);
-            $this -> page_selected = $this -> validate_page();
+        else{
 
-            $offset = ($this -> page_selected - 1) * $this->records_per_table;
-            $last = $this-> page_selected * $this->records_per_table;
-            $this->parts = App::getDB()->select('spare_parts','*',["LIMIT"=>[$offset, $last]]);  
+            $this -> parts_quantity = App::getDB()->count('spare_parts','*');
+            $this->parts = App::getDB()->select('spare_parts','*',["LIMIT"=>[$offset,$this->records_per_table]]);  
         }
 
-        
+        $this -> page_quantity = ceil($this->parts_quantity / $this->records_per_table);
+    }
+    
+    function action_change_page(){
+
+        $this -> page_selected = $this -> validate_page();
+        $this -> get_from_db();
+
+        // set page to 1 if the page number provided by the user is out of range
+        if ($this->page_selected > $this -> page_quantity) {$this->page_selected = 1;}
+
+        $this -> action_generate_view();
+    }
+
+    function action_generate_view(){
+
         App::getSmarty()->assign('page_title',"Części zamienne");
         //Logo
         App::getSmarty()->assign('logo',"Części zamienne");
@@ -203,7 +213,7 @@ class PartsCtrl{
         App::getSmarty()->assign('current_page', $this->page_selected);
         App::getSmarty()->assign('previous_page', $this->page_selected - 1);
         App::getSmarty()->assign('next_page', $this->page_selected + 1);
-        App::getSmarty()->assign('current_search', $search_name);
+        App::getSmarty()->assign('search_name', $this->search_name);
 
         App::getSmarty()->assign('form',$this->form);
 
