@@ -193,7 +193,33 @@ class PartsCtrl{
         $this -> action_generate_view();
     }
 
+   
+
+    function action_generate_part_table(){
+
+        $this -> page_selected = $this -> validate_page();
+        $this-> get_from_db();
+        if ($this->page_selected > $this -> page_quantity) {$this->page_selected = 1;}
+
+        App::getSmarty()->assign('spare_parts',$this->parts);
+        App::getSmarty()->assign('parts_qty',$this->parts_quantity);
+        App::getSmarty()->assign('pages_qty', $this->page_quantity);
+
+        App::getSmarty()->assign('current_page', $this->page_selected);
+        App::getSmarty()->assign('previous_page', $this->page_selected - 1);
+        App::getSmarty()->assign('next_page', $this->page_selected + 1);
+        App::getSmarty()->assign('search_name', $this->search_name);
+
+        App::getSmarty()->display("Parts_table.tpl");
+    }
+
     function action_generate_view(){
+
+        
+        $this -> page_selected = $this -> validate_page();
+        $this-> get_from_db();
+        if ($this->page_selected > $this -> page_quantity) {$this->page_selected = 1;}
+
 
         App::getSmarty()->assign('page_title',"Części zamienne");
         //Logo

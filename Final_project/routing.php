@@ -16,4 +16,7 @@ Utils::addRoute('generate_admin_view','AdminCtrl',['admin']);
 Utils::addRoute('add_user','AdminCtrl',['admin']);
 Utils::addRoute('remove_user','AdminCtrl',['admin']);
 
+Utils::addRoute('generate_part_table','PartsCtrl',['storekeeper', 'technician','manager']);
+
+
 Utils::addRoute('clear_search', 'PartsCtrl',['storekeeper', 'technician','manager']);

@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 4.3.4, created on 2025-03-21 19:57:40
+/* Smarty version 4.3.4, created on 2025-03-21 18:53:05
   from 'D:\Programy\XAMPP\htdocs\Final_project\app\views\Parts_view.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '4.3.4',
-  'unifunc' => 'content_67ddb6a44f66a2_74758761',
+  'unifunc' => 'content_67dda78152c679_83830603',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '0dadb037a877169d877b0f29440a7c00e4f96de5' => 
     array (
       0 => 'D:\\Programy\\XAMPP\\htdocs\\Final_project\\app\\views\\Parts_view.tpl',
-      1 => 1742583437,
+      1 => 1742579574,
       2 => 'file',
     ),
   ),
@@ -21,7 +21,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
     'file:Parts_table.tpl' => 1,
   ),
 ),false)) {
-function content_67ddb6a44f66a2_74758761 (Smarty_Internal_Template $_smarty_tpl) {
+function content_67dda78152c679_83830603 (Smarty_Internal_Template $_smarty_tpl) {
 $_smarty_tpl->_loadInheritance();
 $_smarty_tpl->inheritance->init($_smarty_tpl, true);
 ?>
@@ -30,21 +30,21 @@ $_smarty_tpl->inheritance->init($_smarty_tpl, true);
 
 
 <?php 
-$_smarty_tpl->inheritance->instanceBlock($_smarty_tpl, 'Block_213135104667ddb6a44ca396_59720814', 'nav');
+$_smarty_tpl->inheritance->instanceBlock($_smarty_tpl, 'Block_116951105667dda7811e72e1_75700614', 'nav');
 ?>
 
 
 <?php 
-$_smarty_tpl->inheritance->instanceBlock($_smarty_tpl, 'Block_112704931667ddb6a44e0686_95608925', 'main');
+$_smarty_tpl->inheritance->instanceBlock($_smarty_tpl, 'Block_212161437867dda781307766_37449931', 'main');
 $_smarty_tpl->inheritance->endChild($_smarty_tpl, "Main.tpl");
 }
 /* {block 'nav'} */
-class Block_213135104667ddb6a44ca396_59720814 extends Smarty_Internal_Block
+class Block_116951105667dda7811e72e1_75700614 extends Smarty_Internal_Block
 {
 public $subBlocks = array (
   'nav' => 
   array (
-    0 => 'Block_213135104667ddb6a44ca396_59720814',
+    0 => 'Block_116951105667dda7811e72e1_75700614',
   ),
 );
 public function callBlock(Smarty_Internal_Template $_smarty_tpl) {
@@ -73,12 +73,12 @@ public function callBlock(Smarty_Internal_Template $_smarty_tpl) {
 }
 /* {/block 'nav'} */
 /* {block 'main'} */
-class Block_112704931667ddb6a44e0686_95608925 extends Smarty_Internal_Block
+class Block_212161437867dda781307766_37449931 extends Smarty_Internal_Block
 {
 public $subBlocks = array (
   'main' => 
   array (
-    0 => 'Block_112704931667ddb6a44e0686_95608925',
+    0 => 'Block_212161437867dda781307766_37449931',
   ),
 );
 public function callBlock(Smarty_Internal_Template $_smarty_tpl) {
@@ -86,6 +86,7 @@ public function callBlock(Smarty_Internal_Template $_smarty_tpl) {
 
 
     
+
     <div id="main">
         <?php if (!\core\RoleUtils::inRole('technician')) {?>
             <form method="post" action="<?php echo call_user_func_array( $_smarty_tpl->smarty->registered_plugins[Smarty::PLUGIN_FUNCTION]['url'][0], array( array('action'=>'add_part'),$_smarty_tpl ) );?>
@@ -139,36 +140,38 @@ $_smarty_tpl->tpl_vars['msg']->do_else = false;
 $_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl, 1);?>
             </section>
         <?php }?>
- 
-    <form id = "search_form" method="post" onsubmit="ajaxPostForm('search_form','<?php echo call_user_func_array( $_smarty_tpl->smarty->registered_plugins[Smarty::PLUGIN_FUNCTION]['url'][0], array( array('action'=>'generate_part_table'),$_smarty_tpl ) );?>
-','Parts_table');return false;">
-    
-    <div class="fields" style="flex-direction: row; justify-content: center">   
-    
-    <section >
-        <div class="field">
-            <input type="text" name="search_code" id="search_code" placeholder="Kod"/>
-        </div>
-    </section>
 
-    <section >
-        <div class="field">
-            <input type="text" name="search_name" id="search_name" placeholder="Nazwa"/>
-        </div>
-    </section>
     
-    <section>
-        <div class="field">
-            <input type="submit" name="search" value="Szukaj" />
-        </div class="field">
-    </section>
     
-</div>
+        <form id = "search_form" method="post" onsubmit="ajaxPostForm('search_form','<?php echo call_user_func_array( $_smarty_tpl->smarty->registered_plugins[Smarty::PLUGIN_FUNCTION]['url'][0], array( array('action'=>'generate_part_table'),$_smarty_tpl ) );?>
+','Parts_table'); ajaxReloadElement('clear_search_btn'); return false;">
+            <div class="fields" style="flex-direction: row; justify-content: center">   
+                
+                <section >
+                    <div class="field">
+                        <input type="text" name="search_code" id="search_code" placeholder="Kod"/>
+                    </div>
+                </section>
 
-</form> 
+                <section >
+                    <div class="field">
+                        <input type="text" name="search_name" id="search_name" placeholder="Nazwa"/>
+                    </div>
+                </section>
+                
+                <section>
+                    <div class="field">
+                        <input type="submit" name="search" value="Szukaj" />
+                    </div class="field">
+                </section>
+                
+                
+            </div>
 
-
+        </form>
         
+    
+
         <section id = "Parts_table">		
             <?php $_smarty_tpl->_subTemplateRender("file:Parts_table.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), 0, false);
 ?>    
